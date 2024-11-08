@@ -1,0 +1,125 @@
+/* */
+import re
+import math
+
+# Common weak passwords
+common_passwords = [
+    "123456", "password", "12345678", "qwerty", "12345", "123456789", 
+    "letmein", "1234", "welcome", "password1", "abc123"
+]
+
+# Special character set
+special_characters = "!@#$%^&*()-_=+[{]}|;:'\",<.>/?`~"
+
+
+def password_entropy(password):
+    """Calculate entropy based on password complexity."""
+    pool_size = 0
+    
+    # Determine character pool size
+    if re.search(r'[a-z]', password):
+        pool_size += 26  # lowercase
+    if re.search(r'[A-Z]', password):
+        pool_size += 26  # uppercase
+    if re.search(r'[0-9]', password):
+        pool_size += 10  # digits
+    if re.search(f"[{re.escape(special_characters)}]", password):
+        pool_size += len(special_characters)  # special characters
+    
+    # Calculate entropy
+    entropy = len(password) * math.log2(pool_size) if pool_size > 0 else 0
+    return entropy
+
+
+def is_common_password(password):
+    """Check if the password is in the list of common passwords."""
+    return password.lower() in common_passwords
+
+
+def check_password_strength(password):
+    """Evaluate the password strength and provide detailed feedback."""
+    issues = []
+    score = 0
+    
+    # Check length
+    if len(password) < 8:
+        issues.append("Password is too short (minimum 8 characters).")
+    elif len(password) < 12:
+        issues.append("Password is a bit short; 12+ characters recommended.")
+        score += 1
+    else:
+        score += 2
+    
+    # Check character types
+    if not re.search(r'[a-z]', password):
+        issues.append("Add lowercase letters for a stronger password.")
+    else:
+        score += 1
+
+    if not re.search(r'[A-Z]', password):
+        issues.append("Add uppercase letters for a stronger password.")
+    else:
+        score += 1
+
+    if not re.search(r'[0-9]', password):
+        issues.append("Include numbers for better security.")
+    else:
+        score += 1
+
+    if not re.search(f"[{re.escape(special_characters)}]", password):
+        issues.append("Add special characters for improved security.")
+    else:
+        score += 1
+
+    # Check common password list
+    if is_common_password(password):
+        issues.append("Password is too common; avoid easily guessed passwords.")
+    else:
+        score += 1
+
+    # Calculate entropy and give feedback
+    entropy = password_entropy(password)
+    if entropy < 28:
+        issues.append("Very weak password; try adding more varied characters.")
+    elif entropy < 35:
+        issues.append("Weak password; increase length and character variety.")
+    elif entropy < 60:
+        issues.append("Moderate strength; consider making it more complex.")
+    else:
+        score += 1
+    
+    # Final score-based feedback
+    strength_level = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"]
+    strength_rating = strength_level[min(score, len(strength_level) - 1)]
+
+    return {
+        "password": password,
+        "strength": strength_rating,
+        "entropy": round(entropy, 2),
+        "issues": issues
+    }
+
+# Main loop
+while True:
+    user_password = input("Enter a password to check its strength (or type 'exit' to quit): ")
+    
+    if user_password.lower() == 'exit':
+        print("Exiting password checker. Goodbye!")
+        break
+    
+    # Check password strength
+    result = check_password_strength(user_password)
+    
+    # Display result
+    print("\nPassword Strength Analysis:")
+    print("Password:", result["password"])
+    print("Strength Rating:", result["strength"])
+    print("Entropy Score:", result["entropy"])
+    print("Issues Found:")
+    if result["issues"]:
+        for issue in result["issues"]:
+            print(" -", issue)
+    else:
+        print(" - No issues found. This is a strong password!")
+    
+    print("\n")  # Space before next prompt
