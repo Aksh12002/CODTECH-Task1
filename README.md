@@ -5,7 +5,9 @@
 **Duration:** October- December 2024  
 **Mentor:** Neela Santhosh  
  
-## Overview of the Project
+## Overview of the Project!
+![main py - pro - Visual Studio Code 09-11-2024 17_49_09](https://github.com/user-attachments/assets/c4065a5a-328e-4f1b-be06-39850d526858)
+
 
 ### Project Overview: Advanced Password Strength Checker
 
