@@ -1,8 +1,11 @@
-#### **Name:** Akshay Parshuram Bagul
-#### **Company:** CODTECH IT SOLUTIONS
-#### **Domain:** CYBER SECURITY & ETHICAL HACKING
-#### **Duration:** October- December 2024
-#### **Mentor:** Neela Santhosh
+ **Name:** Akshay Parshuram Bagul
+ **Company:** CODTECH IT SOLUTIONS
+ **ID:** CT12DS2751
+ **Domain:** CYBER SECURITY & ETHICAL HACKING
+ **Duration:** October- December 2024
+ **Mentor:** Neela Santhosh
+ 
+## Overview of the Project
 
 ### Project Overview: Advanced Password Strength Checker
 
